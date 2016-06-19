@@ -44,9 +44,9 @@ FFTW::~FFTW() {
   // This will cause a memory leak then, but it is definitely a better choice
   // than a crash (right, right??? :-) )
   if (essentia::isInitialized()) {
-    fftwf_destroy_plan(_fftPlan);
-    fftwf_free(_input);
-    fftwf_free(_output);
+    fftw_destroy_plan(_fftPlan);
+    fftw_free(_input);
+    fftw_free(_output);
   }
 }
 
@@ -70,7 +70,7 @@ void FFTW::compute() {
   memcpy(_input, &signal[0], size*sizeof(Real));
 
   // calculate the fft
-  fftwf_execute(_fftPlan);
+  fftw_execute(_fftPlan);
 
   // copy result from plan to output vector
   fft.resize(size/2+1);
@@ -96,12 +96,12 @@ void FFTW::createFFTObject(int size) {
   fftwf_free(_input);
   fftwf_free(_output);
   _input = (Real*)fftwf_malloc(sizeof(Real)*size);
-  _output = (complex<Real>*)fftwf_malloc(sizeof(complex<Real>)*size);
+  _output = (complex<Real>*)fftw_malloc(sizeof(complex<Real>)*size);
 
   if (_fftPlan != 0) {
-    fftwf_destroy_plan(_fftPlan);
+    fftw_destroy_plan(_fftPlan);
   }
 
-  _fftPlan = fftwf_plan_dft_r2c_1d(size, _input, (fftwf_complex*)_output, FFTW_ESTIMATE);
+  _fftPlan = fftw_plan_dft_r2c_1d(size, _input, (fftw_complex*)_output, FFTW_ESTIMATE);
   _fftPlanSize = size;
 }

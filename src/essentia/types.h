@@ -65,7 +65,7 @@ namespace essentia {
 /**
  * The main typedef for real numbers.
  */
-typedef float Real;
+typedef double Real;
 
 
 /**

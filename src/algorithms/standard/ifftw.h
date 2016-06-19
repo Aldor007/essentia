@@ -54,7 +54,7 @@ class IFFTW : public Algorithm {
   static const char* description;
 
  protected:
-  fftwf_plan _fftPlan;
+  fftw_plan _fftPlan;
   int _fftPlanSize;
   std::complex<Real>* _input;
   Real* _output;

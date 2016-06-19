@@ -39,9 +39,9 @@ const char* IFFTW::description = DOC("This algorithm calculates the inverse STFT
 IFFTW::~IFFTW() {
   ForcedMutexLocker lock(FFTW::globalFFTWMutex);
 
-  fftwf_destroy_plan(_fftPlan);
-  fftwf_free(_input);
-  fftwf_free(_output);
+  fftw_destroy_plan(_fftPlan);
+  fftw_free(_input);
+  fftw_free(_output);
 }
 
 void IFFTW::compute() {
@@ -63,7 +63,7 @@ void IFFTW::compute() {
   memcpy(_input, &fft[0], (size/2+1)*sizeof(complex<Real>));
 
   // calculate the fft
-  fftwf_execute(_fftPlan);
+  fftw_execute(_fftPlan);
 
   // copy result from plan to output vector
   signal.resize(size);
@@ -82,14 +82,14 @@ void IFFTW::createFFTObject(int size) {
   fftwf_free(_input);
   fftwf_free(_output);
   _input = (complex<Real>*)fftwf_malloc(sizeof(complex<Real>)*size);
-  _output = (Real*)fftwf_malloc(sizeof(Real)*size);
+  _output = (Real*)fftw_malloc(sizeof(Real)*size);
 
   if (_fftPlan != 0) {
-    fftwf_destroy_plan(_fftPlan);
+    fftw_destroy_plan(_fftPlan);
   }
 
   //_fftPlan = fftwf_plan_dft_c2r_1d(size, (fftwf_complex*)_input, _output, FFTW_MEASURE);
-  _fftPlan = fftwf_plan_dft_c2r_1d(size, (fftwf_complex*)_input, _output, FFTW_ESTIMATE);
+  _fftPlan = fftw_plan_dft_c2r_1d(size, (fftw_complex*)_input, _output, FFTW_ESTIMATE);
   _fftPlanSize = size;
 
 }

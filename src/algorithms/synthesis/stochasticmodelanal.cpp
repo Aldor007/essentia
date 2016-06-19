@@ -43,7 +43,7 @@ void StochasticModelAnal::configure() {
 
   // resample for stochastic envelope using FFT
   _hN = int(_fftSize/2.) + 1;
-  _stocf = std::max(_stocf, 3.f / _hN); //  limits  Stochastic decimation factor too small
+  _stocf = std::max(_stocf, 3. / _hN); //  limits  Stochastic decimation factor too small
 
   _stocSize = int (_fftSize * _stocf / 2.);
   _stocSize += _stocSize % 2;

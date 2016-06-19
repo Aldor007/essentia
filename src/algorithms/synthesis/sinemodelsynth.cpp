@@ -78,7 +78,7 @@ void SineModelSynth::compute() {
 
   for (i = 0; i < int(ytphase.size()); ++i)
   {
-		ytphase[i] = fmod (ytphase[i], float(2*M_PI));                        // make phase inside 2*pi
+		ytphase[i] = fmod (ytphase[i], (2*M_PI));                        // make phase inside 2*pi
   }
 
   // save frequency and phase for phase propagation
